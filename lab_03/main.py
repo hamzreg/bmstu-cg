@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import tkinter as tk
 
 from draw import draw_section, draw_spectr, clear_canvas
+from mesuarements import measure_time, measure_step
 
 @dataclass
 class Graphic:
@@ -108,13 +109,13 @@ def create_interface():
     x_start_entry = tk.Entry(window, font = Graphic.font,
                                      width = 8,
                                      justify = tk.CENTER)
-    x_start_entry.insert(tk.END, "0")
+    x_start_entry.insert(tk.END, "1000")
     x_start_entry.place(x = 2100, y = 660)
 
     y_start_entry = tk.Entry(window, font = Graphic.font,
                                      width = 8,
                                      justify = tk.CENTER)
-    y_start_entry.insert(tk.END, "0")
+    y_start_entry.insert(tk.END, "750")
     y_start_entry.place(x = 2620, y = 660)
 
     end_lbl = tk.Label(window, text = "Введите координаты конца отрезка:",
@@ -135,13 +136,13 @@ def create_interface():
     x_end_entry = tk.Entry(window, font = Graphic.font,
                                    width = 8,
                                    justify = tk.CENTER)
-    x_end_entry.insert(tk.END, "0")
+    x_end_entry.insert(tk.END, "1350")
     x_end_entry.place(x = 2100, y = 780)
 
     y_end_entry = tk.Entry(window, font = Graphic.font,
                                    width = 8,
                                    justify = tk.CENTER)
-    y_end_entry.insert(tk.END, "0")
+    y_end_entry.insert(tk.END, "770")
     y_end_entry.place(x = 2620, y = 780)
 
     section_button = tk.Button(window, font = Graphic.font,
@@ -197,7 +198,8 @@ def create_interface():
                                     width = 39,
                                     bg = Colour.button,
                                     bd = 6,
-                                    text = "Исследовать временную характеристику")
+                                    text = "Исследовать временную характеристику",
+                                    command = lambda : measure_time(canvas, length_entry, diff_entry))
     time_button.place(x = 2000, y = 1230)
 
     # Исследование ступенчатости
@@ -206,7 +208,8 @@ def create_interface():
                                     width = 39,
                                     bg = Colour.button,
                                     bd = 6,
-                                    text = "Исследовать ступенчатость отрезков")
+                                    text = "Исследовать ступенчатость отрезков", 
+                                    command = lambda : measure_step(canvas, length_entry, diff_entry))
     step_button.place(x = 2000, y = 1300)
 
     # Очистить экран

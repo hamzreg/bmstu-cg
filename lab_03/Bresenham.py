@@ -1,10 +1,14 @@
+from utils import change_colour
 from math import fabs
 from math_funcs import sign
 
-def float_Bresenham(x_start, y_start, x_end, y_end):
+def float_Bresenham(x_start, y_start, x_end, y_end, count_steps = False):
     """
         Алгоритм Брезенхема с действительными данными.
     """
+
+    if (x_end - x_start == 0) and (y_end - y_start == 0):
+        return [[x_start], [y_start]]
 
     dx = x_end - x_start
     dy = y_end - y_start
@@ -20,10 +24,11 @@ def float_Bresenham(x_start, y_start, x_end, y_end):
     else:
         change = 0
     
-    m = dy / dx
-    error = m - 0.5
+    m = dy / dx # тангенс угла наклона отрезка
+    error = m - 0.5 # удобнее анализировать знак ошибки, так истинное значение ошибки смещается на -0,5
 
     dots = [[], []]
+    steps = 0
 
     x = x_start
     y = y_start
@@ -31,6 +36,9 @@ def float_Bresenham(x_start, y_start, x_end, y_end):
     for _ in range(dx + 1):
         dots[0].append(x)
         dots[1].append(y)
+
+        add_x = x
+        add_y = y
 
         if error >= 0:
             if change:
@@ -46,14 +54,25 @@ def float_Bresenham(x_start, y_start, x_end, y_end):
             x += x_sign
         
         error += m
+
+        if count_steps:
+            if not((add_x == x and add_y != y) or
+                    (add_x != x and add_y == y)):
+                steps += 1
     
+    if count_steps:
+        return steps
+
     return dots
 
 
-def int_Bresenham(x_start, y_start, x_end, y_end):
+def int_Bresenham(x_start, y_start, x_end, y_end, count_steps = False):
     """
         Алгоритм Брезнхема с целочисленными значениями.
     """
+
+    if (x_end - x_start == 0) and (y_end - y_start == 0):
+        return [[x_start], [y_start]]
 
     dx = x_end - x_start
     dy = y_end - y_start
@@ -72,6 +91,7 @@ def int_Bresenham(x_start, y_start, x_end, y_end):
     error = 2 * dy - dx
 
     dots = [[], []]
+    steps = 0
 
     x = x_start
     y = y_start
@@ -79,6 +99,9 @@ def int_Bresenham(x_start, y_start, x_end, y_end):
     for _ in range(dx + 1):
         dots[0].append(x)
         dots[1].append(y)
+
+        add_x = x
+        add_y = y
 
         if error >= 0:
             if change:
@@ -95,12 +118,23 @@ def int_Bresenham(x_start, y_start, x_end, y_end):
             
         error += 2 * dy
     
+        if count_steps:
+            if (add_x != x and add_y != y):
+                steps += 1
+    
+    if count_steps:
+        return steps
+
     return dots
 
-def step_Bresenham(x_start, y_start, x_end, y_end):
+
+def step_Bresenham(x_start, y_start, x_end, y_end, colour, count_steps = False):
     """
         Алгоритм Брезенхема с устранением ступенчатости.
     """
+
+    if (x_end - x_start == 0) and (y_end - y_start == 0):
+        return [[x_start], [y_start], [colour]]
 
     dx = x_end - x_start
     dy = y_end - y_start
@@ -116,11 +150,14 @@ def step_Bresenham(x_start, y_start, x_end, y_end):
     else:
         change = 0
 
-    m = dy / dx
-    error = 0.5
-    w = 1 - m
+    intensity = 255
+    m = dy / dx # тангенс угла наклона отрезка
+    error = 0.5 * intensity
+    m *= intensity
+    w = intensity - m 
 
-    dots = [[], []]
+    dots = [[], [], []]
+    steps = 0
 
     x = x_start
     y = y_start
@@ -128,6 +165,10 @@ def step_Bresenham(x_start, y_start, x_end, y_end):
     for _ in range(dx + 1):
         dots[0].append(x)
         dots[1].append(y)
+        dots[2].append(change_colour(colour, round(error)))
+
+        add_x = x
+        add_y = y
 
         if (error > w):
             x += x_sign
@@ -141,5 +182,13 @@ def step_Bresenham(x_start, y_start, x_end, y_end):
                 x += x_sign
             
             error += m
+
+        if count_steps:
+            if not((add_x == x and add_y != y) or
+                    (add_x != x and add_y == y)):
+                steps += 1
     
+    if count_steps:
+        return steps
+
     return dots
