@@ -218,9 +218,6 @@ def add_dot(x, y):
         Добавление точки.
     """
 
-    if len(points) > 1 and len(points[-1]) == 0:
-        dots.clear()
-
     dot_index = len(points[-1]) - 1
 
     dots_box.insert(tk.END, "{0}. ({1:-4.2f};{2:-4.2f})".format(dot_index + 2, x, y))
