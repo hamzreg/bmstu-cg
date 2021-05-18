@@ -4,7 +4,7 @@ from numpy import arange
 from draw import draw_dot
 from reflection import symmetrical_reflection, reflection_x, reflection_y
 
-def param_circle(canvas, colour, center, radius):
+def param_circle(canvas, colour, center, radius, draw = True):
     """
         Построение окружности при помощи
         параметрического уравнения.
@@ -18,13 +18,15 @@ def param_circle(canvas, colour, center, radius):
         x = radius * cos(t) + center[0]
         y = radius * sin(t) + center[1]
 
-        draw_dot(x, y, colour, canvas)
+        if draw:
+            draw_dot(x, y, colour, canvas)
         points.append([x, y])
 
-    symmetrical_reflection(points, center, colour, canvas)
+    if draw:
+        symmetrical_reflection(points, center, colour, canvas)
 
 
-def param_ellipse(canvas, colour, center, a, b):
+def param_ellipse(canvas, colour, center, a, b, draw = True):
     """
         Построение окружности при помощи
         параметрического уравнения.
@@ -38,8 +40,10 @@ def param_ellipse(canvas, colour, center, a, b):
         x = a * cos(t) + center[0]
         y = b * sin(t) + center[1]
 
-        draw_dot(x, y, colour, canvas)
+        if draw:
+            draw_dot(x, y, colour, canvas)
         points.append([x, y])
 
-    reflection_x(points, center, colour, canvas)
-    reflection_y(points, center, colour, canvas)
+    if draw:
+        reflection_x(points, center, colour, canvas)
+        reflection_y(points, center, colour, canvas)

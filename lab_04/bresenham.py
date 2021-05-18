@@ -1,7 +1,7 @@
 from draw import draw_dot
 from reflection import symmetrical_reflection, reflection_x, reflection_y
 
-def bresenham_circle(canvas, colour, center, radius):
+def bresenham_circle(canvas, colour, center, radius, draw = True):
     """
         Построение окружности при помощи
         алгоритма средней точки.
@@ -12,7 +12,9 @@ def bresenham_circle(canvas, colour, center, radius):
     x = 0
     y = radius
     points.append([x + center[0], y + center[1]])
-    draw_dot(x + center[0], y + center[1], colour, canvas)
+
+    if draw:
+        draw_dot(x + center[0], y + center[1], colour, canvas)
     delta = 2 - radius - radius
 
     while x < y:
@@ -34,13 +36,15 @@ def bresenham_circle(canvas, colour, center, radius):
             else:
                 delta -= y + y - 1
         points.append([x + center[0], y + center[1]])
-        draw_dot(x + center[0], y + center[1], colour, canvas)
+
+        if draw:
+            draw_dot(x + center[0], y + center[1], colour, canvas)
+
+    if draw:
+        symmetrical_reflection(points, center, colour, canvas)
 
 
-    symmetrical_reflection(points, center, colour, canvas)
-
-
-def bresenham_ellipse(canvas, colour, center, a, b):
+def bresenham_ellipse(canvas, colour, center, a, b, draw = True):
     """
         Построение окружности при помощи
         алгоритма средней точки.
@@ -53,7 +57,9 @@ def bresenham_ellipse(canvas, colour, center, a, b):
     sqr_b = b * b
     sqr_a = a * a
     points.append([x + center[0], y + center[1]])
-    draw_dot(x + center[0], y + center[1], colour, canvas)
+
+    if draw:
+        draw_dot(x + center[0], y + center[1], colour, canvas)
     delta = sqr_b - sqr_a * (2 * b + 1)
 
     while y > 0:
@@ -73,7 +79,10 @@ def bresenham_ellipse(canvas, colour, center, a, b):
                 x += 1
                 delta += sqr_b * (2 * x + 1)
         points.append([x + center[0], y + center[1]])
-        draw_dot(x + center[0], y + center[1], colour, canvas)
 
-    reflection_x(points, center, colour, canvas)
-    reflection_y(points, center, colour, canvas)
+        if draw:
+            draw_dot(x + center[0], y + center[1], colour, canvas)
+
+    if draw:
+        reflection_x(points, center, colour, canvas)
+        reflection_y(points, center, colour, canvas)

@@ -447,12 +447,12 @@ def compare_methods_ellipse():
     """
     plt.title("Зависимость времени работы алгоритма от изменения полуоси")
 
-    start_a = 1000
-    start_b = 500
+    start_a = 100
+    start_b = 50
     factor = start_b / start_a
 
-    step = 1000
-    count_fig = 20
+    step = 100
+    count_fig = 4
 
     colour = "white"
     xc = 900
@@ -463,24 +463,20 @@ def compare_methods_ellipse():
     times = []
     methods = [canon_ellipse, param_ellipse, bresenham_ellipse, midpoint_ellipse]
 
-    for i in range(len(algorithms)):
+    for i in range(len(algorithms) - 1):
         times.append(list())
 
         for a in axises:
-            if i != 4:
+            #if i != 4:
+            now_time = 0
+            for _ in range(500):
                 b = round(a * factor)
                 start_time = time.time()
-                methods[i](canvas, colour, [xc, yc], a, b)
-                times[-1].append((time.time() - start_time))
-            else:
-                b = round(a * factor)
-                start_time = time.time()
-                canvas.create_oval(xc - a, yc - b,
-                           xc + a, yc + b,
-                           outline= colour)
-                times[-1].append((time.time() - start_time))
+                methods[i](canvas, colour, [xc, yc], a, b, draw = False)
+                now_time += (time.time() - start_time)
+            times[-1].append(now_time)
 
-    for i in range(len(algorithms)):
+    for i in range(len(algorithms) - 1):
         plt.plot(axises, times[i], label= algorithms[i])
 
     plt.legend()
@@ -499,33 +495,46 @@ def compare_methods_circle():
     """
     plt.title("Зависимость времени работы алгоритма от радиуса")
 
-    start_radius = 500
-    step = 1000
-    count_fig = 20
+    start_radius = 100
+    step = 100
+    count_fig = 4
     colour = "white"
     xc = 900
     yc = 750
     radiuses = [start_radius + i * step for i in range(count_fig)]
     times = []
     methods = [canon_circle, param_circle, bresenham_circle, midpoint_circle]
+    names = ["Каноническое ур-ие",
+             "Алгоритм Брезенхема",
+             "Параметрическое ур-ие",
+             "Алгоритм средней точки"]
 
-    for i in range(len(algorithms)):
+    for i in range(len(algorithms) - 1):
         times.append(list())
 
         for r in radiuses:
-            if i != 4:
+            # if i != 4:
+            now_time = 0
+            for _ in range(500):
                 start_time = time.time()
-                methods[i](canvas, colour, [xc, yc], r)
-                times[-1].append((time.time() - start_time))
-            else:
-                start_time = time.time()
-                canvas.create_oval(xc - r, yc - r,
-                           xc + r, yc + r,
-                           outline= colour)
-                times[-1].append((time.time() - start_time))
+                methods[i](canvas, colour, [xc, yc], r, draw = False)
+                now_time += time.time() - start_time
 
-    for i in range(len(algorithms)):
-        plt.plot(radiuses, times[i], label= algorithms[i])
+            times[-1].append(now_time)
+            # else:
+            #     now_time = 0
+
+            #     for _ in range(100):
+            #         start_time = time.time()
+            #         canvas.create_oval(xc - r, yc - r,
+            #                 xc + r, yc + r,
+            #                 outline= colour)
+            #         now_time += time.time() - start_time
+
+            #     times[-1].append(now_time)
+
+    for i in range(len(names)):
+        plt.plot(radiuses, times[i], label= names[i])
 
     plt.legend(fontsize = 20)
 
