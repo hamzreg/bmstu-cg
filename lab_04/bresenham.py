@@ -4,7 +4,7 @@ from reflection import symmetrical_reflection, reflection_x, reflection_y
 def bresenham_circle(canvas, colour, center, radius, draw = True):
     """
         Построение окружности при помощи
-        алгоритма средней точки.
+        алгоритма Брезенхема.
     """
 
     points = []
@@ -46,8 +46,8 @@ def bresenham_circle(canvas, colour, center, radius, draw = True):
 
 def bresenham_ellipse(canvas, colour, center, a, b, draw = True):
     """
-        Построение окружности при помощи
-        алгоритма средней точки.
+        Построение эллипса при помощи
+        алгоритма Брезенхема.
     """
 
     points = []
@@ -60,24 +60,24 @@ def bresenham_ellipse(canvas, colour, center, a, b, draw = True):
 
     if draw:
         draw_dot(x + center[0], y + center[1], colour, canvas)
-    delta = sqr_b - sqr_a * (2 * b + 1)
+    delta = sqr_b - sqr_a * (b + b + 1)
 
     while y > 0:
         if delta <= 0:
-            d1 = 2 * delta + sqr_a * (2 * y - 1)
+            d1 = delta + delta + sqr_a * (y + y - 1)
             x += 1
-            delta += sqr_b * (2 * x + 1)
+            delta += sqr_b * (x + x + 1)
             if d1 >= 0:
                 y -= 1
-                delta += sqr_a * (-2 * y + 1)
+                delta += sqr_a * (-y - y + 1)
 
         else:
-            d2 = 2 * delta + sqr_b * (-2 * x - 1)
+            d2 = delta + delta + sqr_b * (-x - x - 1)
             y -= 1
-            delta += sqr_a * (-2 * y + 1)
+            delta += sqr_a * (-y - y + 1)
             if d2 < 0:
                 x += 1
-                delta += sqr_b * (2 * x + 1)
+                delta += sqr_b * (x + x + 1)
         points.append([x + center[0], y + center[1]])
 
         if draw:

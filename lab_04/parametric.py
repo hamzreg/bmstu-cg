@@ -28,21 +28,24 @@ def param_circle(canvas, colour, center, radius, draw = True):
 
 def param_ellipse(canvas, colour, center, a, b, draw = True):
     """
-        Построение окружности при помощи
+        Построение эллипса при помощи
         параметрического уравнения.
     """
 
     points = []
 
     step = 1 / max(a, b)
+    t = 0
 
-    for t in arange(0, pi/2 + step, step):
+    while t <= pi / 2 + step:
         x = a * cos(t) + center[0]
         y = b * sin(t) + center[1]
 
         if draw:
             draw_dot(x, y, colour, canvas)
         points.append([x, y])
+
+        t += step
 
     if draw:
         reflection_x(points, center, colour, canvas)

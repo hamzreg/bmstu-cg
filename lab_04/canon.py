@@ -24,7 +24,7 @@ def canon_circle(canvas, colour, center, radius, draw = True):
 
 def canon_ellipse(canvas, colour, center, a, b, draw = True):
     """
-        Построение окружности при помощи
+        Построение эллипса при помощи
         канонического уравнения.
     """
 

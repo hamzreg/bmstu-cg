@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import tkinter as tk
 import time
+from datetime import datetime
 from tkinter import messagebox
 import matplotlib.pyplot as plt
 
@@ -96,7 +97,7 @@ def get_count_fig():
 
         return count_fig
     except:
-        messagebox.showerror("Ошибка", "Число фигур должно быть числом.")
+        messagebox.showerror("Ошибка", "Число фигур должно быть целым числом.")
         return
 
 
@@ -110,7 +111,7 @@ def get_step():
 
         return step
     except:
-        messagebox.showerror("Ошибка", "Шаг должен быть числом.")
+        messagebox.showerror("Ошибка", "Шаг должен быть целым числом.")
         return
 
 
@@ -125,7 +126,7 @@ def get_spectr_center():
 
         return [center_x, center_y]
     except:
-        messagebox.showerror("Ошибка", "Координаты центра должны быть вещественными числами.")
+        messagebox.showerror("Ошибка", "Координаты центра должны быть целыми числами.")
         return
 
 
@@ -277,7 +278,7 @@ def get_start_radius():
 
         return start_radius
     except:
-        messagebox.showerror("Ошибка", "Радиус должен быть числом.")
+        messagebox.showerror("Ошибка", "Радиус должен быть целым числом.")
         return
 
 
@@ -345,7 +346,7 @@ def get_center():
 
         return [center_x, center_y]
     except:
-        messagebox.showerror("Ошибка", "Координаты центра должны быть вещественными числами.")
+        messagebox.showerror("Ошибка", "Координаты центра должны быть целыми числами.")
         return
 
 
@@ -405,7 +406,7 @@ def get_radius():
 
         return radius
     except:
-        messagebox.showerror("Ошибка", "Радиус должен быть числом.")
+        messagebox.showerror("Ошибка", "Радиус должен быть целым числом.")
         return
 
 
@@ -452,7 +453,7 @@ def compare_methods_ellipse():
     factor = start_b / start_a
 
     step = 100
-    count_fig = 4
+    count_fig = 6
 
     colour = "white"
     xc = 900
@@ -467,22 +468,27 @@ def compare_methods_ellipse():
         times.append(list())
 
         for a in axises:
-            #if i != 4:
             now_time = 0
-            for _ in range(500):
+            for _ in range(10):
                 b = round(a * factor)
                 start_time = time.time()
                 methods[i](canvas, colour, [xc, yc], a, b, draw = False)
                 now_time += (time.time() - start_time)
-            times[-1].append(now_time)
+            times[-1].append(now_time / 20)
+
+    names = ["Алгоритм Брезенхема",
+             "Параметрическое ур-ие",
+             "Каноническое ур-ие",
+             "Алгоритм средней точки"]
 
     for i in range(len(algorithms) - 1):
-        plt.plot(axises, times[i], label= algorithms[i])
+        plt.plot(axises, times[i], label= names[i])
 
-    plt.legend()
+    plt.legend(fontsize = 20)
 
     plt.xlabel("Полуось", fontsize = 20) 
     plt.ylabel("Время", fontsize = 20)
+    plt.tick_params(labelsize = 20)
 
     plt.grid()
     plt.show()
@@ -497,15 +503,15 @@ def compare_methods_circle():
 
     start_radius = 100
     step = 100
-    count_fig = 4
+    count_fig = 6
     colour = "white"
     xc = 900
     yc = 750
     radiuses = [start_radius + i * step for i in range(count_fig)]
     times = []
     methods = [canon_circle, param_circle, bresenham_circle, midpoint_circle]
-    names = ["Каноническое ур-ие",
-             "Алгоритм Брезенхема",
+    names = ["Алгоритм Брезенхема",
+             "Каноническое ур-ие",
              "Параметрическое ур-ие",
              "Алгоритм средней точки"]
 
@@ -513,25 +519,13 @@ def compare_methods_circle():
         times.append(list())
 
         for r in radiuses:
-            # if i != 4:
             now_time = 0
-            for _ in range(500):
+            for _ in range(10):
                 start_time = time.time()
                 methods[i](canvas, colour, [xc, yc], r, draw = False)
                 now_time += time.time() - start_time
 
-            times[-1].append(now_time)
-            # else:
-            #     now_time = 0
-
-            #     for _ in range(100):
-            #         start_time = time.time()
-            #         canvas.create_oval(xc - r, yc - r,
-            #                 xc + r, yc + r,
-            #                 outline= colour)
-            #         now_time += time.time() - start_time
-
-            #     times[-1].append(now_time)
+            times[-1].append(now_time / 20)
 
     for i in range(len(names)):
         plt.plot(radiuses, times[i], label= names[i])
@@ -540,6 +534,7 @@ def compare_methods_circle():
 
     plt.xlabel("Радиус", fontsize = 20) 
     plt.ylabel("Время", fontsize = 20)
+    plt.tick_params(labelsize = 20)
 
     plt.grid()
     plt.show()
