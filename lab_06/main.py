@@ -225,7 +225,7 @@ def get_pause_time():
     except:
         messagebox.showerror("Ошибка",
                              "Время должно быть вещественным числом.")
-        return
+        return -1
 
 
 # Работа с ребрами
@@ -336,8 +336,8 @@ def get_entry_dot():
     """
 
     try:
-        x = float(x_etr.get())
-        y = float(y_etr.get())
+        x = int(x_etr.get())
+        y = int(y_etr.get())
     except:
         messagebox.showerror("Ошибка",
                              "Координаты точки должны быть числами.")
@@ -377,8 +377,8 @@ def get_seed_dot():
     """
 
     try:
-        x = float(seed_x_etr.get())
-        y = float(seed_y_etr.get())
+        x = int(seed_x_etr.get())
+        y = int(seed_y_etr.get())
     except:
         messagebox.showerror("Ошибка",
                              "Координаты точки должны быть числами.")
@@ -387,7 +387,7 @@ def get_seed_dot():
     add_seed_dot(x, y)
 
 
-def get_seed_dot(event):
+def get_click_seed_dot(event):
     """
         Получение координат 
         затравочного пикселя,
@@ -517,11 +517,19 @@ if __name__ == "__main__":
 
     seed_y_etr.place(x = 2652, y = 860)
 
+    fill_btn = tk.Button(window, font = Graphic.font,
+                                 width = 38,
+                                 bg = Colour.button,
+                                 bd = 6,
+                                 text = "Задать",
+                                 command = get_seed_dot)
+    fill_btn.place(x = 1960, y = 920) 
+
     # Выбор цвета
     colour_lbl = tk.Label(window, text = "Цвет заполнения",
                                   font = Graphic.font_bold,
                                   bg = Colour.back)
-    colour_lbl.place(x = 2235, y = 920)
+    colour_lbl.place(x = 2235, y = 1000)
 
     colours = ["Синий", "Зелёный", "Красный"]
     colour_list = tk.Listbox(selectmode = tk.SINGLE,
@@ -529,7 +537,7 @@ if __name__ == "__main__":
                              height = 3,
                              width = 40,
                              font = Graphic.font)
-    colour_list.place(x = 1960, y = 980)
+    colour_list.place(x = 1960, y = 1060)
 
     for colour in colours:
         colour_list.insert(tk.END, colour)
@@ -538,7 +546,7 @@ if __name__ == "__main__":
     fill_lbl = tk.Label(window, text = "Тип заполнения",
                                   font = Graphic.font_bold,
                                   bg = Colour.back)
-    fill_lbl.place(x = 2240, y = 1120)
+    fill_lbl.place(x = 2240, y = 1200)
 
     fill_views = ["С задержкой", "Без задержки"]
     fill_list = tk.Listbox(selectmode = tk.SINGLE,
@@ -546,7 +554,7 @@ if __name__ == "__main__":
                              height = 2,
                              width = 40,
                              font = Graphic.font)
-    fill_list.place(x = 1960, y = 1180)
+    fill_list.place(x = 1960, y = 1260)
 
     for view in fill_views:
         fill_list.insert(tk.END, view)
@@ -554,13 +562,13 @@ if __name__ == "__main__":
     pause_time_lbl = tk.Label(window, text = "Время задержки (с): ",
                              font = Graphic.font,
                              bg = Colour.back)
-    pause_time_lbl.place(x = 1960, y = 1300)
+    pause_time_lbl.place(x = 1960, y = 1400)
 
     pause_time_etr = tk.Entry(window, font = Graphic.font,
                              width = 12,
                              justify = tk.CENTER)
 
-    pause_time_etr.place(x = 2400, y = 1300)
+    pause_time_etr.place(x = 2400, y = 1400)
 
     fill_btn = tk.Button(window, font = Graphic.font,
                                  width = 38,
@@ -568,7 +576,7 @@ if __name__ == "__main__":
                                  bd = 6,
                                  text = "Заполнить",
                                  command = fill)
-    fill_btn.place(x = 1960, y = 1360) 
+    fill_btn.place(x = 1960, y = 1460) 
 
     # Очистить экран
     clear_btn = tk.Button(window, font = Graphic.font,
@@ -577,10 +585,10 @@ if __name__ == "__main__":
                                   bd = 6,
                                   text = "Очистить экран",
                                   command = clear)
-    clear_btn.place(x = 1960, y = 1520) 
+    clear_btn.place(x = 1960, y = 1530) 
 
     # Работа с мышью
     canvas.bind('<1>', get_click_dot)
-    canvas.bind('<3>', get_seed_dot)
+    canvas.bind('<3>', get_click_seed_dot)
 
     window.mainloop()
