@@ -80,8 +80,6 @@ def seed_fill(stack, colour, pause):
             x += 1
 
         rx = x - 1
-        image_canvas.put(colour[1], 
-                        (now_point[0] + 1, y, rx + 1, y + 1))
 
         x = now_point[0] - 1
 
@@ -91,7 +89,6 @@ def seed_fill(stack, colour, pause):
             x -= 1
 
         lx = x + 1
-        image_canvas.put(colour[1], (lx, y, now_point[0], y + 1))
 
         for i in [1, -1]:
             x = lx
@@ -99,6 +96,7 @@ def seed_fill(stack, colour, pause):
 
             while x <= rx:
                 flag = 0
+
                 while (image_canvas.get(x, y) != edge_colour and 
                        image_canvas.get(x, y) != colour[0] and x <= rx):
                     flag = 1
@@ -108,15 +106,17 @@ def seed_fill(stack, colour, pause):
                     stack.append([x - 1, y])
 
                     flag = 0
-                xi = x
+
+                start_x = x
 
                 while ((image_canvas.get(x, y) == edge_colour 
                         or image_canvas.get(x, y) == colour[0]) 
                         and x < rx):
                     x += 1
 
-                if x == xi:
+                if x == start_x:
                     x += 1
+
         if pause:
             time.sleep(pause)
             canvas.update()
