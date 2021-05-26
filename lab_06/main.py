@@ -397,6 +397,11 @@ def get_click_seed_dot(event):
     x = event.x 
     y = event.y
 
+    seed_x_etr.delete(0, tk.END)
+    seed_y_etr.delete(0, tk.END)
+    seed_x_etr.insert(tk.END, str(x))
+    seed_y_etr.insert(tk.END, str(y))
+
     add_seed_dot(x, y)
 
 
